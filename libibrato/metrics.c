@@ -25,3 +25,29 @@
 #include <librato/metrics.h>
 
 #include "config.h"
+
+struct librato_metrics {
+	int mutex;
+};
+
+int librato_metrics_new(librato_metrics_t **lm)
+{
+	if (!lm)
+		return EINVAL;
+
+	*lm = malloc(sizeof(librato_metrics_t));
+	if (!*lm)
+		return ENOMEM; // LCOV_EXCL_LINE
+
+	memset(*lm, 0, sizeof(librato_metrics_t));
+
+	return 0;
+}
+
+void librato_metrics_free(librato_metrics_t *lm)
+{
+	if (!lm)
+		return;
+
+	free(lm);
+}

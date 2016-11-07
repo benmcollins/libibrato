@@ -27,6 +27,45 @@
 extern "C" {
 #endif
 
+/** Opaque Librato Metrics context. */
+typedef struct librato_metrics librato_metrics_t;
+
+/**
+ * @defgroup librato_metrics_new Librato Metrics Object Creation
+ * Functions used to create and destroy Librato Metrics contexts.
+ *
+ * The librato_metrics_t object is used to establish a context to a Librato
+ * account for performing metrics creation and manipulation. All metrics
+ * functionality requires this context. It is thread safe, and thus, can be
+ * used in threaded applications without further protection.
+ * @{
+ */
+
+/**
+ * Allocate a new, Librato Metrics context.
+ *
+ * This is used to create a new context to pass to subsequent metrics
+ * routines.
+ *
+ * @param lm Pointer to a Librato Metrics pointer. Will be allocated on
+ *           success.
+ * @return 0 on success, valid errno otherwise.
+ */
+int librato_metrics_new(librato_metrics_t **lm);
+
+/**
+ * Free a Librato Metrics context and any other resources it is using.
+ *
+ * After calling, the Librato Metrics object referenced will no longer be
+ * valid and its memory will be freed.
+ *
+ * @param lm Pointer to a Librato Metrics object previously created with
+ *           librato_metrics_new().
+ */
+void librato_metrics_free(librato_metrics_t *lm);
+
+/** @} */
+
 #ifdef __cplusplus
 }
 #endif

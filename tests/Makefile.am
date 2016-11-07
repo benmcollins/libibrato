@@ -1,4 +1,4 @@
-TESTS =
+TESTS = lm_new
 
 check_PROGRAMS = $(TESTS)
 
