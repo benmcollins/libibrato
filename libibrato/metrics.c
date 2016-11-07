@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
+#include <pthread.h>
 
 #include <jansson.h>
 
@@ -27,19 +28,23 @@
 #include "config.h"
 
 struct librato_metrics {
-	int mutex;
+	pthread_mutex_t mutex;
 };
 
-int librato_metrics_new(librato_metrics_t **lm)
+int librato_metrics_new(librato_metrics_t **__lm)
 {
-	if (!lm)
+	librato_metrics_t *lm;
+
+	if (!__lm)
 		return EINVAL;
 
-	*lm = malloc(sizeof(librato_metrics_t));
-	if (!*lm)
+	lm = calloc(1, sizeof(librato_metrics_t));
+	if (!lm)
 		return ENOMEM; // LCOV_EXCL_LINE
 
-	memset(*lm, 0, sizeof(librato_metrics_t));
+	pthread_mutex_init(&lm->mutex, NULL);
+
+	*__lm = lm;
 
 	return 0;
 }
@@ -48,6 +53,9 @@ void librato_metrics_free(librato_metrics_t *lm)
 {
 	if (!lm)
 		return;
+
+	/* TODO: Check for EBUSY? */
+	pthread_mutex_destroy(&lm->mutex);
 
 	free(lm);
 }

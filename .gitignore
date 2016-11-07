@@ -21,8 +21,7 @@ Makefile
 *.lo
 *.o
 */.libs/*
-*/config.h
-*/config.h.in
+*/config.h*
 */stamp-h1
 /test-driver
 /coverage.info
@@ -30,9 +29,9 @@ Makefile
 *.gcno
 
 # Explicit stuff
-!/m4/ax_check_openssl.m4
 !/m4/doxygen.m4
 !/m4/ax_code_coverage.m4
 !/m4/ax_valgrind_check.m4
+!/m4/ax_pthread.m4
 /doxygen-doc/*
 /libibrato/libibrato.pc
